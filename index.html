@@ -2093,7 +2093,7 @@
             to { transform: rotate(360deg); }
         }
     </style>
-</head>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#e94560"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></head>
 <body>
     <!-- Login Required Screen (shown when not authenticated) -->
     <div id="login-screen" class="login-screen">
@@ -6988,7 +6988,7 @@
         // Check auth on page load
         checkAuth();
     </script>
-</body>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js")}</script></body>
 </html>
 <!-- test Wed Jan 28 19:46:49 CET 2026 -->
 <!-- webhook test 19:54:54 -->
