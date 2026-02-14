@@ -4,7 +4,7 @@
       "id": "task_001",
       "title": "Trading AI - Schwab API Integration",
       "description": "Build automated trading agent using Charles Schwab Trader API. Research completed, documents in Google Drive folder 'Trading AI'.",
-      "status": "in-progress",
+      "status": "in_progress",
       "subtasks": [
         { "id": "sub_001", "title": "Research Schwab API documentation", "done": true },
         { "id": "sub_002", "title": "Create project documents in Google Drive", "done": true },
@@ -37,7 +37,7 @@
       "id": "task_003",
       "title": "Ampere Dashboard Access Issue",
       "description": "Cannot access ampere.sh/dashboard - redirects to homepage. Support email sent.",
-      "status": "in-progress",
+      "status": "in_progress",
       "subtasks": [
         { "id": "sub_020", "title": "Send support email", "done": true },
         { "id": "sub_021", "title": "Post on Discord", "done": false },
@@ -66,7 +66,7 @@
   "activity": [
     { "type": "completed", "actor": "AI Assistant", "task": "Google Integration", "time": "yesterday" },
     { "type": "completed", "actor": "AI Assistant", "task": "Mission Control Setup", "time": "just now" },
-    { "type": "moved", "actor": "AI Assistant", "task": "Trading AI - Schwab API Integration", "from": "backlog", "to": "in-progress", "time": "yesterday" }
+    { "type": "moved", "actor": "AI Assistant", "task": "Trading AI - Schwab API Integration", "from": "backlog", "to": "in_progress", "time": "yesterday" }
   ],
   "lastUpdated": "2026-02-14T03:15:00Z"
 }
