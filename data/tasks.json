@@ -6,17 +6,49 @@
       "description": "Build automated trading agent using Charles Schwab Trader API. Research completed, documents in Google Drive folder 'Trading AI'.",
       "status": "in_progress",
       "subtasks": [
-        { "id": "sub_001", "title": "Research Schwab API documentation", "done": true },
-        { "id": "sub_002", "title": "Create project documents in Google Drive", "done": true },
-        { "id": "sub_003", "title": "Create Schwab developer account & register app", "done": false },
-        { "id": "sub_004", "title": "Setup OAuth2 authentication", "done": false },
-        { "id": "sub_005", "title": "Implement first trading strategy", "done": false },
-        { "id": "sub_006", "title": "Backtesting", "done": false },
-        { "id": "sub_007", "title": "Paper trading", "done": false }
+        {
+          "id": "sub_001",
+          "title": "Research Schwab API documentation",
+          "done": true
+        },
+        {
+          "id": "sub_002",
+          "title": "Create project documents in Google Drive",
+          "done": true
+        },
+        {
+          "id": "sub_003",
+          "title": "Create Schwab developer account & register app",
+          "done": false
+        },
+        {
+          "id": "sub_004",
+          "title": "Setup OAuth2 authentication",
+          "done": false
+        },
+        {
+          "id": "sub_005",
+          "title": "Implement first trading strategy",
+          "done": false
+        },
+        {
+          "id": "sub_006",
+          "title": "Backtesting",
+          "done": false
+        },
+        {
+          "id": "sub_007",
+          "title": "Paper trading",
+          "done": false
+        }
       ],
       "priority": "high",
       "dod": "Working trading bot connected to Schwab API with at least one strategy implemented and backtested",
-      "comments": ["Research docs in Google Drive: Trading AI folder"]
+      "comments": [
+        "Research docs in Google Drive: Trading AI folder"
+      ],
+      "project": "DevOps",
+      "tags": []
     },
     {
       "id": "task_002",
@@ -24,14 +56,34 @@
       "description": "OAuth2 access to Gmail, Drive, Sheets, Calendar, Docs",
       "status": "done",
       "subtasks": [
-        { "id": "sub_010", "title": "Create Google Cloud project", "done": true },
-        { "id": "sub_011", "title": "Enable APIs (Gmail, Drive, Sheets, Calendar, Docs)", "done": true },
-        { "id": "sub_012", "title": "Configure OAuth2 credentials", "done": true },
-        { "id": "sub_013", "title": "Test all services", "done": true }
+        {
+          "id": "sub_010",
+          "title": "Create Google Cloud project",
+          "done": true
+        },
+        {
+          "id": "sub_011",
+          "title": "Enable APIs (Gmail, Drive, Sheets, Calendar, Docs)",
+          "done": true
+        },
+        {
+          "id": "sub_012",
+          "title": "Configure OAuth2 credentials",
+          "done": true
+        },
+        {
+          "id": "sub_013",
+          "title": "Test all services",
+          "done": true
+        }
       ],
       "priority": "high",
       "dod": "Working access to Gmail, Drive, Sheets, Calendar, Docs via API",
-      "comments": ["Completed 2026-02-13"]
+      "comments": [
+        "Completed 2026-02-13"
+      ],
+      "project": "DevOps",
+      "tags": []
     },
     {
       "id": "task_003",
@@ -39,13 +91,29 @@
       "description": "Cannot access ampere.sh/dashboard - redirects to homepage. Support email sent.",
       "status": "in_progress",
       "subtasks": [
-        { "id": "sub_020", "title": "Send support email", "done": true },
-        { "id": "sub_021", "title": "Post on Discord", "done": false },
-        { "id": "sub_022", "title": "Await response and resolution", "done": false }
+        {
+          "id": "sub_020",
+          "title": "Send support email",
+          "done": true
+        },
+        {
+          "id": "sub_021",
+          "title": "Post on Discord",
+          "done": false
+        },
+        {
+          "id": "sub_022",
+          "title": "Await response and resolution",
+          "done": false
+        }
       ],
       "priority": "medium",
       "dod": "Dashboard accessible and functional",
-      "comments": ["Email sent to support@ampere.sh on 2026-02-13"]
+      "comments": [
+        "Email sent to support@ampere.sh on 2026-02-13"
+      ],
+      "project": "DevOps",
+      "tags": []
     },
     {
       "id": "task_004",
@@ -53,20 +121,57 @@
       "description": "Setup task management dashboard with GitHub Pages",
       "status": "done",
       "subtasks": [
-        { "id": "sub_030", "title": "Install Tailscale", "done": true },
-        { "id": "sub_031", "title": "Install GitHub CLI", "done": true },
-        { "id": "sub_032", "title": "Create GitHub repo", "done": true },
-        { "id": "sub_033", "title": "Deploy dashboard to GitHub Pages", "done": true }
+        {
+          "id": "sub_030",
+          "title": "Install Tailscale",
+          "done": true
+        },
+        {
+          "id": "sub_031",
+          "title": "Install GitHub CLI",
+          "done": true
+        },
+        {
+          "id": "sub_032",
+          "title": "Create GitHub repo",
+          "done": true
+        },
+        {
+          "id": "sub_033",
+          "title": "Deploy dashboard to GitHub Pages",
+          "done": true
+        }
       ],
       "priority": "high",
       "dod": "Working Kanban dashboard accessible via web",
-      "comments": ["Completed 2026-02-14"]
+      "comments": [
+        "Completed 2026-02-14"
+      ],
+      "project": "DevOps",
+      "tags": []
     }
   ],
   "activity": [
-    { "type": "completed", "actor": "AI Assistant", "task": "Google Integration", "time": "yesterday" },
-    { "type": "completed", "actor": "AI Assistant", "task": "Mission Control Setup", "time": "just now" },
-    { "type": "moved", "actor": "AI Assistant", "task": "Trading AI - Schwab API Integration", "from": "backlog", "to": "in_progress", "time": "yesterday" }
+    {
+      "type": "completed",
+      "actor": "AI Assistant",
+      "task": "Google Integration",
+      "time": "yesterday"
+    },
+    {
+      "type": "completed",
+      "actor": "AI Assistant",
+      "task": "Mission Control Setup",
+      "time": "just now"
+    },
+    {
+      "type": "moved",
+      "actor": "AI Assistant",
+      "task": "Trading AI - Schwab API Integration",
+      "from": "backlog",
+      "to": "in_progress",
+      "time": "yesterday"
+    }
   ],
   "lastUpdated": "2026-02-14T03:15:00Z"
 }
