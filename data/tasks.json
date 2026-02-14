@@ -1,0 +1,49 @@
+[
+  {
+    "id": "task_001",
+    "title": "Trading AI - Schwab API Integration",
+    "description": "Build automated trading agent using Charles Schwab Trader API. Research completed, documents in Google Drive folder 'Trading AI'.",
+    "status": "in-progress",
+    "subtasks": [
+      { "id": "sub_001", "title": "Research Schwab API documentation", "done": true },
+      { "id": "sub_002", "title": "Create project documents in Google Drive", "done": true },
+      { "id": "sub_003", "title": "Create Schwab developer account & register app", "done": false },
+      { "id": "sub_004", "title": "Setup OAuth2 authentication", "done": false },
+      { "id": "sub_005", "title": "Implement first trading strategy", "done": false },
+      { "id": "sub_006", "title": "Backtesting", "done": false },
+      { "id": "sub_007", "title": "Paper trading", "done": false }
+    ],
+    "priority": "high",
+    "dod": "Working trading bot connected to Schwab API with at least one strategy implemented and backtested",
+    "comments": ["Research docs in Google Drive: Trading AI folder"]
+  },
+  {
+    "id": "task_002",
+    "title": "Google Integration",
+    "description": "OAuth2 access to Gmail, Drive, Sheets, Calendar, Docs",
+    "status": "done",
+    "subtasks": [
+      { "id": "sub_010", "title": "Create Google Cloud project", "done": true },
+      { "id": "sub_011", "title": "Enable APIs", "done": true },
+      { "id": "sub_012", "title": "Configure OAuth2", "done": true },
+      { "id": "sub_013", "title": "Test all services", "done": true }
+    ],
+    "priority": "high",
+    "dod": "Working access to Gmail, Drive, Sheets, Calendar, Docs via API",
+    "comments": ["Completed 2026-02-13"]
+  },
+  {
+    "id": "task_003",
+    "title": "Ampere Dashboard Access Issue",
+    "description": "Cannot access ampere.sh/dashboard - redirects to homepage",
+    "status": "in-progress",
+    "subtasks": [
+      { "id": "sub_020", "title": "Send support email", "done": true },
+      { "id": "sub_021", "title": "Post on Discord", "done": false },
+      { "id": "sub_022", "title": "Wait for response", "done": false }
+    ],
+    "priority": "medium",
+    "dod": "Dashboard accessible and functional",
+    "comments": ["Email sent to support@ampere.sh on 2026-02-13"]
+  }
+]
