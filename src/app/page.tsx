@@ -15,7 +15,8 @@ import {
   Activity,
   Target,
   Wallet,
-  Layers
+  Layers,
+  ClipboardList
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -30,6 +31,9 @@ import {
 import { BMADWorkflowVisualization } from '@/components/ui/workflow-visualization'
 import { PackageSystem } from '@/components/ui/package-system'
 import { GovernanceGates } from '@/components/ui/governance-gates'
+import { TeamHierarchy } from '@/components/ui/team-hierarchy'
+import { WorkOrders } from '@/components/ui/work-orders'
+import { AuditTrail } from '@/components/ui/audit-trail'
 import { SecretsVault } from '@/components/secrets'
 
 const navigation = [
@@ -340,48 +344,33 @@ function DevStudioView() {
 }
 
 function AgentsView() {
-  const agents = {
-    core: [
-      { name: 'Chief of Staff', provider: 'Kimi', status: 'Active', tasks: 45 },
-      { name: 'Strategic Planner', provider: 'OpenAI', status: 'Active', tasks: 23 },
-      { name: 'Financial Controller', provider: 'OpenAI', status: 'Active', tasks: 18 },
-      { name: 'Tech Lead', provider: 'Claude', status: 'Active', tasks: 67 },
-    ],
-    bmad: [
-      { name: 'Product Owner', provider: 'GLM-5', status: 'Active', tasks: 34 },
-      { name: 'Business Analyst', provider: 'GLM-5', status: 'Active', tasks: 28 },
-      { name: 'Code Review', provider: 'Claude', status: 'Active', tasks: 156 },
-      { name: 'QA Tester', provider: 'GLM-5', status: 'Active', tasks: 89 },
-    ]
-  }
-
   return (
     <div className="space-y-6">
+      {/* Team Hierarchy */}
       <Card>
         <CardHeader>
-          <CardTitle>Core Agents (10)</CardTitle>
-          <CardDescription>Strategic and organizational agents</CardDescription>
+          <div className="flex items-center gap-2">
+            <Users className="w-5 h-5 text-blue-500" />
+            <CardTitle>Team Hierarchy</CardTitle>
+          </div>
+          <CardDescription>Reports and delegation relationships for all 22 agents</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {agents.core.map((agent) => (
-              <AgentCard key={agent.name} {...agent} />
-            ))}
-          </div>
+          <TeamHierarchy />
         </CardContent>
       </Card>
 
+      {/* Work Orders */}
       <Card>
         <CardHeader>
-          <CardTitle>BMAD Agents (12)</CardTitle>
-          <CardDescription>Development workflow agents</CardDescription>
+          <div className="flex items-center gap-2">
+            <ClipboardList className="w-5 h-5 text-green-500" />
+            <CardTitle>Work Orders</CardTitle>
+          </div>
+          <CardDescription>Task tracking and assignment system</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {agents.bmad.map((agent) => (
-              <AgentCard key={agent.name} {...agent} />
-            ))}
-          </div>
+          <WorkOrders />
         </CardContent>
       </Card>
     </div>
@@ -559,6 +548,20 @@ function SettingsView() {
         </CardHeader>
         <CardContent>
           <GovernanceGates />
+        </CardContent>
+      </Card>
+
+      {/* Audit Trail */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Shield className="w-5 h-5 text-orange-500" />
+            <CardTitle>Audit Trail</CardTitle>
+          </div>
+          <CardDescription>Complete operation log for all critical actions</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AuditTrail />
         </CardContent>
       </Card>
 

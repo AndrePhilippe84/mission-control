@@ -31,3 +31,19 @@ export {
   type GovernanceRule,
   type PendingApproval,
 } from './governance-gates'
+export {
+  TeamHierarchy,
+  type TeamMember,
+} from './team-hierarchy'
+export {
+  WorkOrders,
+  type WorkOrder,
+  type WorkOrderStatus,
+  type WorkOrderPriority,
+} from './work-orders'
+export {
+  AuditTrail,
+  type AuditEntry,
+  type AuditActionType,
+  type AuditSeverity,
+} from './audit-trail'
