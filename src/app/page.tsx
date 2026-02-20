@@ -11,10 +11,23 @@ import {
   Code,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  Activity,
+  Target,
+  Wallet,
+  Layers
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { 
+  MetricCard, 
+  AgentStatusCard, 
+  TaskCompletionCard, 
+  BMADPhaseCard,
+  CostTrackerCard,
+  MetricsGrid 
+} from '@/components/ui/metric-card'
+import { BMADWorkflowVisualization } from '@/components/ui/workflow-visualization'
 import { SecretsVault } from '@/components/secrets'
 
 const navigation = [
@@ -138,35 +151,30 @@ export default function Dashboard() {
 
 // View Components
 function MissionControlView() {
-  const stats = [
-    { label: 'Active Agents', value: '22', change: '+2', color: 'blue' },
-    { label: 'Projects', value: '3', change: '+1', color: 'green' },
-    { label: 'Tasks Completed', value: '156', change: '+23', color: 'purple' },
-    { label: 'Cost Today', value: '$12.45', change: '-8%', color: 'orange' },
-  ]
-
   return (
     <div className="space-y-6">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-500">{stat.label}</p>
-                  <p className="text-2xl font-bold mt-1">{stat.value}</p>
-                </div>
-                <span className={`text-sm font-medium ${
-                  stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {stat.change}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* New Metric Cards */}
+      <MetricsGrid columns={4}>
+        <AgentStatusCard 
+          activeAgents={22} 
+          totalAgents={22} 
+          trend={{ direction: 'up', value: '+2 this week' }}
+        />
+        <TaskCompletionCard 
+          completed={156} 
+          total={200}
+          trend={{ direction: 'up', value: '+23 today' }}
+        />
+        <BMADPhaseCard 
+          currentPhase={3} 
+          totalPhases={4}
+          phaseName="Execution"
+        />
+        <CostTrackerCard 
+          todayCost={12.45} 
+          budget={50.00}
+        />
+      </MetricsGrid>
 
       {/* Active Projects */}
       <Card>
@@ -264,42 +272,30 @@ function ProjectCard({ name, status, progress, agents, phase }: {
 }
 
 function DevStudioView() {
-  const phases = [
-    { name: 'Phase 1: Planning', agents: 6, status: 'Completed', color: 'green' },
-    { name: 'Phase 2: Readiness Check', agents: 1, status: 'Completed', color: 'green' },
-    { name: 'Phase 3: Execution', agents: 12, status: 'Active', color: 'blue' },
-    { name: 'Phase 4: Launch', agents: 2, status: 'Pending', color: 'gray' },
-  ]
-
   return (
     <div className="space-y-6">
+      {/* New BMAD Workflow Visualization */}
+      <BMADWorkflowVisualization currentPhase={3} />
+      
       <Card>
         <CardHeader>
-          <CardTitle>BMAD Workflow Status</CardTitle>
-          <CardDescription>Breakthrough Method for Agile AI Driven Development</CardDescription>
+          <CardTitle>BMAD Agents Overview</CardTitle>
+          <CardDescription>12 specialized development agents</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {phases.map((phase, index) => (
-              <div key={phase.name} className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-medium text-gray-600">
-                  {index + 1}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-medium">{phase.name}</h4>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      phase.color === 'green' ? 'bg-green-100 text-green-800' :
-                      phase.color === 'blue' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {phase.status}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-500">{phase.agents} agents</p>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600">6</div>
+              <div className="text-sm text-blue-800">Planning Agents</div>
+            </div>
+            <div className="p-4 bg-green-50 rounded-lg">
+              <div className="text-2xl font-bold text-green-600">1</div>
+              <div className="text-sm text-green-800">Readiness Agent</div>
+            </div>
+            <div className="p-4 bg-purple-50 rounded-lg">
+              <div className="text-2xl font-bold text-purple-600">12</div>
+              <div className="text-sm text-purple-800">Execution Agents</div>
+            </div>
           </div>
         </CardContent>
       </Card>
