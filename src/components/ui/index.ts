@@ -63,3 +63,9 @@ export {
   type MemoryEntry,
   type MemoryType,
 } from './memory-view'
+export {
+  OfficeView,
+  type OfficeAgent,
+  type AgentStatus,
+  type AgentRole,
+} from './office-view'

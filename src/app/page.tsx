@@ -19,7 +19,8 @@ import {
   ClipboardList,
   Video,
   Calendar,
-  Brain
+  Brain,
+  Monitor
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -40,6 +41,7 @@ import { AuditTrail } from '@/components/ui/audit-trail'
 import { ContentPipeline } from '@/components/ui/content-pipeline'
 import { CalendarView } from '@/components/ui/calendar-view'
 import { MemoryView } from '@/components/ui/memory-view'
+import { OfficeView } from '@/components/ui/office-view'
 import { SecretsVault } from '@/components/secrets'
 
 const navigation = [
@@ -529,15 +531,21 @@ function MetricsView() {
 
 function TeamView() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Team Management</CardTitle>
-        <CardDescription>Coming soon - Team collaboration features</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-gray-500">Team management features will be available in the next update.</p>
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+      {/* Office View */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Monitor className="w-5 h-5 text-green-500" />
+            <CardTitle>Digital Office</CardTitle>
+          </div>
+          <CardDescription>Visual overview of all 22 agents and their current status</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <OfficeView />
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 
