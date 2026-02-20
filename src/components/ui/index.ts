@@ -47,3 +47,19 @@ export {
   type AuditActionType,
   type AuditSeverity,
 } from './audit-trail'
+export {
+  ContentPipeline,
+  type ContentItem,
+  type ContentStage,
+  type ContentType,
+} from './content-pipeline'
+export {
+  CalendarView,
+  type CalendarEvent,
+  type CalendarEventType,
+} from './calendar-view'
+export {
+  MemoryView,
+  type MemoryEntry,
+  type MemoryType,
+} from './memory-view'

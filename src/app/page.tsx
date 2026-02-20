@@ -16,7 +16,10 @@ import {
   Target,
   Wallet,
   Layers,
-  ClipboardList
+  ClipboardList,
+  Video,
+  Calendar,
+  Brain
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -34,12 +37,18 @@ import { GovernanceGates } from '@/components/ui/governance-gates'
 import { TeamHierarchy } from '@/components/ui/team-hierarchy'
 import { WorkOrders } from '@/components/ui/work-orders'
 import { AuditTrail } from '@/components/ui/audit-trail'
+import { ContentPipeline } from '@/components/ui/content-pipeline'
+import { CalendarView } from '@/components/ui/calendar-view'
+import { MemoryView } from '@/components/ui/memory-view'
 import { SecretsVault } from '@/components/secrets'
 
 const navigation = [
   { name: 'Mission Control', icon: LayoutDashboard, id: 'mission-control' },
   { name: 'Dev Studio', icon: Code, id: 'dev-studio' },
   { name: 'Agents', icon: Cpu, id: 'agents' },
+  { name: 'Content', icon: Video, id: 'content' },
+  { name: 'Calendar', icon: Calendar, id: 'calendar' },
+  { name: 'Memory', icon: Brain, id: 'memory' },
   { name: 'Metrics', icon: BarChart3, id: 'metrics' },
   { name: 'Secrets Vault', icon: Shield, id: 'secrets' },
   { name: 'Team', icon: Users, id: 'team' },
@@ -58,6 +67,12 @@ export default function Dashboard() {
         return <DevStudioView />
       case 'agents':
         return <AgentsView />
+      case 'content':
+        return <ContentView />
+      case 'calendar':
+        return <CalendarViewPage />
+      case 'memory':
+        return <MemoryViewPage />
       case 'metrics':
         return <MetricsView />
       case 'secrets':
@@ -605,7 +620,7 @@ function SettingsView() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Dashboard Version</span>
-              <span className="font-medium">1.1.0</span>
+              <span className="font-medium">1.2.0</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Last Updated</span>
@@ -616,6 +631,63 @@ function SettingsView() {
               <span className="font-medium">Production</span>
             </div>
           </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function ContentView() {
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Video className="w-5 h-5 text-red-500" />
+            <CardTitle>Content Pipeline</CardTitle>
+          </div>
+          <CardDescription>Manage your content creation workflow from idea to published</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ContentPipeline />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function CalendarViewPage() {
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-blue-500" />
+            <CardTitle>Calendar</CardTitle>
+          </div>
+          <CardDescription>Cron jobs, meetings, deadlines, and scheduled tasks</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CalendarView />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function MemoryViewPage() {
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Brain className="w-5 h-5 text-purple-500" />
+            <CardTitle>Memory</CardTitle>
+          </div>
+          <CardDescription>Access and search through all memories and daily logs</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <MemoryView />
         </CardContent>
       </Card>
     </div>
