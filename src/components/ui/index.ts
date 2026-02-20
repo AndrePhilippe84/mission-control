@@ -21,3 +21,13 @@ export {
   BMADWorkflowVisualization,
   HorizontalWorkflow 
 } from './workflow-visualization'
+export {
+  PackageSystem,
+  type PackageManifest,
+} from './package-system'
+export {
+  GovernanceGates,
+  ProtectedActionButton,
+  type GovernanceRule,
+  type PendingApproval,
+} from './governance-gates'

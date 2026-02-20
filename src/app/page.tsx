@@ -28,6 +28,8 @@ import {
   MetricsGrid 
 } from '@/components/ui/metric-card'
 import { BMADWorkflowVisualization } from '@/components/ui/workflow-visualization'
+import { PackageSystem } from '@/components/ui/package-system'
+import { GovernanceGates } from '@/components/ui/governance-gates'
 import { SecretsVault } from '@/components/secrets'
 
 const navigation = [
@@ -538,6 +540,28 @@ function TeamView() {
 function SettingsView() {
   return (
     <div className="space-y-6">
+      {/* Package System */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Package Manager</CardTitle>
+          <CardDescription>Export and import agent configurations</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <PackageSystem />
+        </CardContent>
+      </Card>
+
+      {/* Governance Gates */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Governance & Security</CardTitle>
+          <CardDescription>Approval workflows and security controls</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <GovernanceGates />
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>System Settings</CardTitle>
@@ -578,7 +602,7 @@ function SettingsView() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Dashboard Version</span>
-              <span className="font-medium">1.0.0</span>
+              <span className="font-medium">1.1.0</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Last Updated</span>
