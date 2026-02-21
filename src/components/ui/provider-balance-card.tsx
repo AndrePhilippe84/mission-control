@@ -54,10 +54,10 @@ const REAL_BALANCES: ProviderBalance[] = [
   },
   {
     providerId: 'moonshot',
-    providerName: 'Moonshot (Kimi)',
-    balance: 0.00,
+    providerName: 'Moonshot (Kimi K2.5)',
+    balance: 120.00,  // ✓ Your current balance
     currency: 'CNY',
-    status: 'no_key',
+    status: 'active',
     lastUpdated: '2026-02-21T06:12:00Z',
   },
 ];
