@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { RefreshCw, Wallet, AlertTriangle, CheckCircle2, DollarSign, ExternalLink } from 'lucide-react';
+import { RefreshCw, Wallet, AlertTriangle, CheckCircle2, ExternalLink, Server } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ProviderBalance {
@@ -16,53 +15,19 @@ interface ProviderBalance {
   lastUpdated: string;
 }
 
-interface ProviderBalanceCardProps {
-  className?: string;
+interface BalanceApiResponse {
+  status: string;
+  timestamp: string;
+  providers: ProviderBalance[];
 }
 
-// Mock data for demo - in real app would come from API
-const mockBalances: ProviderBalance[] = [
-  {
-    providerId: 'anthropic',
-    providerName: 'Anthropic (Claude)',
-    balance: 6.20,
-    currency: 'USD',
-    status: 'active',
-    lastUpdated: new Date().toISOString(),
-  },
-  {
-    providerId: 'openai',
-    providerName: 'OpenAI (GPT)',
-    balance: 0.00,
-    currency: 'USD',
-    status: 'depleted',
-    lastUpdated: new Date().toISOString(),
-  },
-  {
-    providerId: 'gemini',
-    providerName: 'Google (Gemini)',
-    balance: 50.00,
-    currency: 'USD',
-    status: 'active',
-    lastUpdated: new Date().toISOString(),
-  },
-  {
-    providerId: 'zhipu',
-    providerName: 'Zhipu (GLM-5)',
-    balance: 85.50,
-    currency: 'CNY',
-    status: 'active',
-    lastUpdated: new Date().toISOString(),
-  },
-  {
-    providerId: 'moonshot',
-    providerName: 'Moonshot (Kimi)',
-    balance: 120.00,
-    currency: 'CNY',
-    status: 'active',
-    lastUpdated: new Date().toISOString(),
-  },
-];
+interface ProviderBalanceCardProps {
+  className?: string;
+  apiUrl?: string;
+}
+
+// Default API URL - can be overridden via props or env
+const DEFAULT_API_URL = 'http://localhost:8080/api/balances';
 
 const providerColors: Record<string, { bg: string; text: string; border: string }> = {
   anthropic: { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
@@ -80,23 +45,55 @@ const providerUrls: Record<string, string> = {
   moonshot: 'https://platform.moonshot.cn/console/billing',
 };
 
-export function ProviderBalanceCard({ className }: ProviderBalanceCardProps) {
-  const [balances, setBalances] = useState<ProviderBalance[]>(mockBalances);
+export function ProviderBalanceCard({ className, apiUrl }: ProviderBalanceCardProps) {
+  const [balances, setBalances] = useState<ProviderBalance[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
+  const [apiStatus, setApiStatus] = useState<'connected' | 'error' | 'loading'>('loading');
 
-  const handleRefresh = async () => {
+  const fetchBalances = async () => {
     setIsLoading(true);
-    // TODO: Call actual API to fetch balances
-    // const response = await fetch('/api/provider-balances');
-    // const data = await response.json();
-    // setBalances(data);
+    setError(null);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setLastRefresh(new Date());
-    setIsLoading(false);
+    try {
+      const response = await fetch(apiUrl || DEFAULT_API_URL, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data: BalanceApiResponse = await response.json();
+      
+      if (data.status === 'success') {
+        setBalances(data.providers);
+        setApiStatus('connected');
+        setLastRefresh(new Date());
+      } else {
+        throw new Error(data.status);
+      }
+    } catch (err) {
+      console.error('Failed to fetch balances:', err);
+      setError(err instanceof Error ? err.message : 'Failed to connect to balance API');
+      setApiStatus('error');
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // Fetch on mount and every 30 minutes
+  useEffect(() => {
+    fetchBalances();
+    
+    const interval = setInterval(fetchBalances, 30 * 60 * 1000); // 30 minutes
+    
+    return () => clearInterval(interval);
+  }, [apiUrl]);
 
   const getTotalUSD = () => {
     return balances
@@ -116,6 +113,45 @@ export function ProviderBalanceCard({ className }: ProviderBalanceCardProps) {
   const depletedProviders = getDepletedProviders();
   const hasIssues = lowBalanceProviders.length > 0 || depletedProviders.length > 0;
 
+  // Show connection error
+  if (apiStatus === 'error' && balances.length === 0) {
+    return (
+      <Card className={cn("w-full", className)}>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Server className="w-5 h-5 text-red-500" />
+            <CardTitle>Provider Balances</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Alert variant="destructive">
+            <AlertTriangle className="w-4 h-4" />
+            <AlertDescription>
+              <div className="space-y-2">
+                <p className="font-medium">Cannot connect to Balance API</p>
+                <p className="text-sm">{error}</p>
+                <p className="text-sm mt-2">
+                  Make sure the balance API is running on your VPS:
+                </p>
+                <code className="text-xs bg-gray-100 p-2 rounded block">
+                  curl http://localhost:8080/api/health
+                </code>
+              </div>
+            </AlertDescription>
+          </Alert>
+          <Button 
+            variant="outline" 
+            className="mt-4 w-full"
+            onClick={fetchBalances}
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Retry Connection
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className={cn("w-full", className)}>
       <CardHeader>
@@ -124,17 +160,25 @@ export function ProviderBalanceCard({ className }: ProviderBalanceCardProps) {
             <Wallet className="w-5 h-5 text-blue-500" />
             <CardTitle>Provider Balances</CardTitle>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleRefresh}
-            disabled={isLoading}
-          >
-            <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin")} />
-          </Button>
+          <div className="flex items-center gap-2">
+            {apiStatus === 'connected' && (
+              <span className="flex items-center gap-1 text-xs text-green-600">
+                <CheckCircle2 className="w-3 h-3" />
+                Live
+              </span>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={fetchBalances}
+              disabled={isLoading}
+            >
+              <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin")} />
+            </Button>
+          </div>
         </div>
         <CardDescription>
-          Monitor API credits across all LLM providers
+          Real-time API credits from VPS backend
         </CardDescription>
       </CardHeader>
 
@@ -181,71 +225,83 @@ export function ProviderBalanceCard({ className }: ProviderBalanceCardProps) {
         </div>
 
         {/* Provider List */}
-        <div className="space-y-2">
-          {balances.map((provider) => {
-            const colors = providerColors[provider.providerId] || providerColors.anthropic;
-            const isLow = provider.status === 'active' && provider.balance < 10;
-            
-            return (
-              <div
-                key={provider.providerId}
-                className={cn(
-                  "flex items-center justify-between p-3 rounded-lg border",
-                  colors.bg,
-                  colors.border,
-                  isLow && "border-yellow-400 ring-1 ring-yellow-400"
-                )}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={cn("w-2 h-2 rounded-full", 
-                    provider.status === 'active' 
-                      ? isLow ? "bg-yellow-500" : "bg-green-500"
-                      : "bg-red-500"
-                  )} />
-                  <div>
-                    <div className="font-medium text-sm">{provider.providerName}</div>
-                    <div className="text-xs text-gray-500">
-                      {provider.status === 'active' && isLow && (
-                        <span className="text-yellow-600 font-medium">Low Balance • </span>
-                      )}
-                      Updated {new Date(provider.lastUpdated).toLocaleTimeString()}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="text-right">
-                    <div className={cn("font-bold", 
-                      provider.status === 'active'
-                        ? isLow ? "text-yellow-600" : colors.text
-                        : "text-red-600"
-                    )}>
-                      {provider.currency === 'CNY' ? '¥' : '$'}
-                      {provider.balance.toFixed(2)}
-                      <span className="text-xs font-normal ml-1">{provider.currency}</span>
-                    </div>
-                    <div className="text-xs text-gray-500 capitalize">
-                      {provider.status === 'active' && isLow ? 'Recharge Soon' : provider.status}
+        {balances.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <Server className="w-12 h-12 mx-auto mb-3 opacity-50" />
+            <p>No balance data available</p>
+            <p className="text-sm">Waiting for first fetch...</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {balances.map((provider) => {
+              const colors = providerColors[provider.providerId] || providerColors.anthropic;
+              const isLow = provider.status === 'active' && provider.balance < 10;
+              
+              return (
+                <div
+                  key={provider.providerId}
+                  className={cn(
+                    "flex items-center justify-between p-3 rounded-lg border",
+                    colors.bg,
+                    colors.border,
+                    isLow && "border-yellow-400 ring-1 ring-yellow-400"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={cn("w-2 h-2 rounded-full", 
+                      provider.status === 'active' 
+                        ? isLow ? "bg-yellow-500" : "bg-green-500"
+                        : "bg-red-500"
+                    )} />
+                    <div>
+                      <div className="font-medium text-sm">{provider.providerName}</div>
+                      <div className="text-xs text-gray-500">
+                        {provider.status === 'active' && isLow && (
+                          <span className="text-yellow-600 font-medium">Low Balance • </span>
+                        )}
+                        {provider.errorMessage ? (
+                          <span className="text-red-500">{provider.errorMessage}</span>
+                        ) : (
+                          <span>Updated {new Date(provider.lastUpdated).toLocaleTimeString()}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    onClick={() => window.open(providerUrls[provider.providerId], '_blank')}
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </Button>
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className={cn("font-bold", 
+                        provider.status === 'active'
+                          ? isLow ? "text-yellow-600" : colors.text
+                          : "text-red-600"
+                      )}>
+                        {provider.currency === 'CNY' ? '¥' : '$'}
+                        {provider.balance.toFixed(2)}
+                        <span className="text-xs font-normal ml-1">{provider.currency}</span>
+                      </div>
+                      <div className="text-xs text-gray-500 capitalize">
+                        {provider.status === 'active' && isLow ? 'Recharge Soon' : provider.status}
+                      </div>
+                    </div>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      onClick={() => window.open(providerUrls[provider.providerId], '_blank')}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Footer */}
         <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t">
-          <span>Last refreshed: {lastRefresh.toLocaleTimeString()}</span>
+          <span>Last refresh: {lastRefresh.toLocaleTimeString()}</span>
           <div className="flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3 text-green-500" />
             <span>Auto-refresh every 30 min</span>
