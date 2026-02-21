@@ -42,6 +42,7 @@ import { ContentPipeline } from '@/components/ui/content-pipeline'
 import { CalendarView } from '@/components/ui/calendar-view'
 import { MemoryView } from '@/components/ui/memory-view'
 import { OfficeView } from '@/components/ui/office-view'
+import { ProviderBalanceCard } from '@/components/ui/provider-balance-card'
 import { SecretsVault } from '@/components/secrets'
 
 const navigation = [
@@ -429,6 +430,9 @@ function AgentCard({ name, provider, status, tasks }: {
 function MetricsView() {
   return (
     <div className="space-y-6">
+      {/* Provider Balances - NEW */}
+      <ProviderBalanceCard />
+
       <Card>
         <CardHeader>
           <CardTitle>Cost Analysis</CardTitle>
